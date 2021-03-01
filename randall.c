@@ -68,7 +68,10 @@ main (int argc, char **argv)
   /* Check arguments.  */
   bool valid = false;
   long long nbytes;
- nBytes(argc, argv, &valid, &nbytes);
+  struct options opt = {};
+  parseOptions(argc,argv,&opt);
+  valid = opt.valid;
+  nbytes = opt.nbytes;
   if (!valid)
     {
       fprintf (stderr, "%s: usage: %s NBYTES\n", argv[0], argv[0]);

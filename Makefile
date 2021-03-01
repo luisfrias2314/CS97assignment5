@@ -30,7 +30,7 @@ TAREXT = txz
 
 default: randall
 
-randall: randall.c
+randall: randall.c rand64-hw.c rand64-sw.c output.c options.c
 	$(CC) $(CFLAGS) $@.c $(OTHER_SOURCES) -o $@
 
 check: randall test_script.sh
