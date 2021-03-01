@@ -13,13 +13,15 @@ void parseOptions(int argc, char **argv, struct options* opt)
     bool valid = false;
     long long nbytes;
      while ((c = getopt(argc, argv, "i:o:")) != -1) {
-         switch('c')
+         switch(c)
          {
              case 'i':  
              i_input = optarg; 
+             opt->first_input = i_input;
              break;
              case 'o':
              o_input = optarg;
+             opt->second_input = o_input;
              break;
              default: break;
         }
@@ -37,6 +39,4 @@ void parseOptions(int argc, char **argv, struct options* opt)
     }
     opt->valid = valid;
     opt->nbytes = nbytes;
-    opt->first_input = i_input;
-    opt->second_input = o_input;
 }

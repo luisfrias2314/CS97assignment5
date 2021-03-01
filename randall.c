@@ -33,6 +33,7 @@
 #include "rand64-hw.h"
 #include "output.h"
 #include "options.h"
+#include <string.h>
  
 
 /* Hardware implementation.  */
@@ -76,6 +77,17 @@ main (int argc, char **argv)
     {
       fprintf (stderr, "%s: usage: %s NBYTES\n", argv[0], argv[0]);
       return 1;
+    }
+    if(opt.first_input != NULL)
+    {
+      if(strcmp(opt.first_input,"rdrand") == 0)
+      {
+      printf("working");
+      }
+      else if(strcmp(opt.first_input,"mrand") == 0)
+      {
+      printf("working");
+      }
     }
 
   /* If there's no work to do, don't worry about which library to use.  */
