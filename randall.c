@@ -78,17 +78,6 @@ main (int argc, char **argv)
       fprintf (stderr, "%s: usage: %s NBYTES\n", argv[0], argv[0]);
       return 1;
     }
-    if(opt.first_input != NULL)
-    {
-      if(strcmp(opt.first_input,"rdrand") == 0)
-      {
-      printf("working");
-      }
-      else if(strcmp(opt.first_input,"mrand") == 0)
-      {
-      printf("working");
-      }
-    }
 
   /* If there's no work to do, don't worry about which library to use.  */
   if (nbytes == 0)
@@ -96,23 +85,52 @@ main (int argc, char **argv)
 
   /* Now that we know we have work to do, arrange to use the
      appropriate library.  */
-  void (*initialize) (void);
+  void (*initialize) (char *input);
   unsigned long long (*rand64) (void);
   void (*finalize) (void);
-  if (rdrand_supported ())
+    if(opt.first_input != NULL)
     {
-      initialize = hardware_rand64_init;
-      rand64 = hardware_rand64;
-      finalize = hardware_rand64_fini;
+      if(strcmp(opt.first_input,"rdrand") == 0)
+      {
+        if (rdrand_supported ())
+        {
+          initialize = hardware_rand64_init;
+          rand64 = hardware_rand64;
+          finalize = hardware_rand64_fini;
+         }
+         else
+         {
+           fprintf (stderr, "rdrand not supported");
+         }
+      }
+      else if(strcmp(opt.first_input,"mrand") == 0)
+      {
+      printf("working");
+      }
+      else
+      {
+        initialize = software_rand64_init;
+        rand64 = software_rand64;
+        finalize = software_rand64_fini;
+      }
+
     }
-  else
+    else
     {
-      initialize = software_rand64_init;
-      rand64 = software_rand64;
-      finalize = software_rand64_fini;
+       if (rdrand_supported ())
+       {
+         
+         initialize = hardware_rand64_init;
+         rand64 = hardware_rand64;
+         finalize = hardware_rand64_fini;
+       }
+       else
+       {
+         fprintf (stderr, "rdrand not supported");
+       }
     }
 
-  initialize ();
+  initialize (opt.first_input);
   int wordsize = sizeof rand64 ();
   int output_errno = 0;
 

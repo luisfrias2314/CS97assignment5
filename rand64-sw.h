@@ -1,7 +1,7 @@
 #ifndef RAND64_SW_H
 #define RAND64_SW_H
 
-void software_rand64_init (void);
+void software_rand64_init (char *filename);
 
 unsigned long long software_rand64 (void);
 

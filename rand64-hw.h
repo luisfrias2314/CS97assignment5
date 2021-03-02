@@ -1,7 +1,7 @@
 #ifndef RAND64_HW_H
 #define RAND64_HW_H
 
-void hardware_rand64_init (void);
+void hardware_rand64_init (char *DummyFileName);
 
 unsigned long long hardware_rand64 (void);
 

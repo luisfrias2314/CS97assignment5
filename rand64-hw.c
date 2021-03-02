@@ -3,7 +3,7 @@
 #include <immintrin.h>
 /* Initialize the hardware rand64 implementation.  */
 void
-hardware_rand64_init (void)
+hardware_rand64_init (char *DummyFileName)
 {
 
 }
