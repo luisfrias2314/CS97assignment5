@@ -35,7 +35,7 @@
 #include "options.h"
 #include <string.h>
 #include <unistd.h>
- 
+#include "mrand48-r.h"
 
 /* Hardware implementation.  */
 
@@ -104,9 +104,11 @@ main (int argc, char **argv)
            fprintf (stderr, "rdrand not supported");
          }
       }
-      else if(strcmp(opt.first_input,"mrand") == 0)
+      else if(strcmp(opt.first_input,"mrand48_r") == 0)
       {
-      printf("working");
+      initialize = mrand48_rng_init;
+      rand64 = mrand48_rng;
+      finalize = mrand48_rng_fini;
       }
       else
       {
@@ -129,10 +131,6 @@ main (int argc, char **argv)
        {
          fprintf (stderr, "rdrand not supported");
        }
-    }
-    if(opt.second_input != NULL)
-    {
-
     }
 
   initialize (opt.first_input);

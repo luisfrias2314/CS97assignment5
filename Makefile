@@ -22,7 +22,7 @@ OPTIMIZE =
 CC = gcc
 CFLAGS = $(OPTIMIZE) -g3 -Wall -Wextra -fanalyzer \
   -march=native -mtune=native -mrdrnd
-OTHER_SOURCES = rand64-hw.c rand64-sw.c output.c options.c
+OTHER_SOURCES = rand64-hw.c rand64-sw.c output.c options.c mrand48-r.c
 # The archiver command, its options and filename extension.
 TAR = tar
 TARFLAGS = --xz --transform 's,^,randall/,'
@@ -30,7 +30,7 @@ TAREXT = txz
 
 default: randall
 
-randall: randall.c rand64-hw.c rand64-sw.c output.c options.c
+randall: randall.c rand64-hw.c rand64-sw.c output.c options.c mrand48-r.c
 	$(CC) $(CFLAGS) $@.c $(OTHER_SOURCES) -o $@
 
 check: randall test_script.sh
