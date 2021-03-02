@@ -34,6 +34,7 @@
 #include "output.h"
 #include "options.h"
 #include <string.h>
+#include <unistd.h>
  
 
 /* Hardware implementation.  */
@@ -129,13 +130,49 @@ main (int argc, char **argv)
          fprintf (stderr, "rdrand not supported");
        }
     }
+    if(opt.second_input != NULL)
+    {
+
+    }
 
   initialize (opt.first_input);
   int wordsize = sizeof rand64 ();
   int output_errno = 0;
 
-  do
+if(opt.second_input != NULL)
+{
+  if(strcmp(opt.second_input,"stdio" ) != 0)
+  {
+    long long int totalwritten = 0;
+    long long int requiredToWrite = nbytes;
+    int bufferSize = atoi(opt.second_input);
+    char *numbers = malloc(bufferSize * sizeof(char));
+    while(totalwritten < requiredToWrite)
     {
+      unsigned long long x = rand64 ();
+      int currentArrayIndex = 0;
+      if(totalwritten + bufferSize > requiredToWrite)
+      {
+        bufferSize = requiredToWrite - totalwritten;
+      }
+      while (x > 0 && currentArrayIndex < bufferSize)
+      {
+        numbers[currentArrayIndex] = x;
+        currentArrayIndex++;
+        x = (x >>= 1);
+      }
+      
+      if(bufferSize == currentArrayIndex)
+      {
+        int byteswritten = write(1,numbers,bufferSize);
+        totalwritten += byteswritten;
+      }
+    } 
+  }
+  else
+  {
+    do
+  {
       unsigned long long x = rand64 ();
       int outbytes = nbytes < wordsize ? nbytes : wordsize;
       if (!writebytes (x, outbytes))
@@ -144,9 +181,29 @@ main (int argc, char **argv)
 	  break;
 	}
       nbytes -= outbytes;
-    }
+  }
   while (0 < nbytes);
+  
+  }
+}
+else 
+{
+  do
+  {
+      unsigned long long x = rand64 ();
+      int outbytes = nbytes < wordsize ? nbytes : wordsize;
+      if (!writebytes (x, outbytes))
+	{
+	  output_errno = errno;
+	  break;
+	}
+      nbytes -= outbytes;
+  }
+  while (0 < nbytes);
+}
 
+  
+  
   if (fclose (stdout) != 0)
     output_errno = errno;
 
