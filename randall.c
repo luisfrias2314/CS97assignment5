@@ -145,6 +145,10 @@ if(opt.second_input != NULL)
     long long int requiredToWrite = nbytes;
     int bufferSize = atoi(opt.second_input);
     char *numbers = malloc(bufferSize * sizeof(char));
+    if(numbers==NULL)                     
+    {
+        exit(1);
+    }
     while(totalwritten < requiredToWrite)
     {
       unsigned long long x = rand64 ();

@@ -23,7 +23,7 @@ void parseOptions(int argc, char **argv, struct options* opt)
              o_input = optarg;
              opt->second_input = o_input;
              break;
-             default: break;
+             default: exit(1);
         }
          
      }
